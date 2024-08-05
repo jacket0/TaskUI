@@ -2,13 +2,33 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Slider))]
 public class AudioTuner : MonoBehaviour
 {
-	[SerializeField] private AudioMixer _mixer;
-	[SerializeField] private Slider _slider;
+	[SerializeField] private AudioMixerGroup _mixer;
+	[SerializeField] private string _parameterName;
 
-	public void SetVolume(string name)
+	private const int CorrectingMixerValue = 20;
+
+	private Slider _slider;
+
+	private void Awake()
 	{
-		_mixer.SetFloat(name, Mathf.Log10(_slider.value) * 20);
+		_slider = GetComponent<Slider>();
+	}
+
+	private void Start() 
+	{
+		_slider?.onValueChanged?.AddListener(SetVolume);
+	}
+
+	private void OnDisable()
+	{
+		_slider?.onValueChanged?.RemoveListener(SetVolume);
+	}
+
+	public void SetVolume(float value)
+	{
+		_mixer.audioMixer.SetFloat(_parameterName, Mathf.Log10(value) * CorrectingMixerValue);
 	}
 }
