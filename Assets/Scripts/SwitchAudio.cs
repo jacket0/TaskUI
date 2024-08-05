@@ -15,12 +15,12 @@ public class SwitchAudio : MonoBehaviour
 		if (_isMuted)
 		{
 			_normal.TransitionTo(_transitionSpeed);
-			_isMuted = false;
 		}
 		else
 		{
 			_silence.TransitionTo(_transitionSpeed);
-			_isMuted = true;
 		}
+
+		_isMuted = !_isMuted;
 	}
 }

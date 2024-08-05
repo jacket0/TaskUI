@@ -12,13 +12,9 @@ public class AudioTuner : MonoBehaviour
 
 	private Slider _slider;
 
-	private void Awake()
+	private void OnEnable() 
 	{
 		_slider = GetComponent<Slider>();
-	}
-
-	private void Start() 
-	{
 		_slider?.onValueChanged?.AddListener(SetVolume);
 	}
 
